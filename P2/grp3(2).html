@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuação do Teste Vocacional</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <div id="content">
+        <div class="card">
+            <img src="..." alt="Descrição da Imagem" class="card-img">
+            <h3><p class="card-question">Pergunta 11</p></h3>
+        </div>
+        <div class="inputs">
+            <button class="input alternativa-btn" onclick="registrarResposta('SEGTRAB'); proximaPergunta(4)">Resposta 1</button>
+            <button class="input alternativa-btn" onclick="registrarResposta('JURID'); proximaPergunta(4)">Resposta 2</button>
+        </div>
+    </div>
+
+    <script>
+        // Carrega pontuação existente ou inicializa com valores do Local Storage
+        let pontuacao3 = JSON.parse(localStorage.getItem('pontuacao3')) || {
+            SEGTRAB: 0,
+            JURID: 0
+        };
+
+        // Função para registrar a resposta e atualizar pontuação
+        function registrarResposta(resposta) {
+            pontuacao3[resposta]++;
+            localStorage.setItem('pontuacao3', JSON.stringify(pontuacao3));
+            console.log('Pontos Atualizados:', pontuacao3);
+        }
+
+        // Função para exibir a próxima pergunta
+        function proximaPergunta(pergunta) {
+            // Salva a pontuação da página atual no localStorage
+            localStorage.setItem('pontuacao_pagina_atual', JSON.stringify(pontuacao3));
+
+            let nextContent = '';
+
+            if (pergunta === 4) {
+                nextContent = `
+                    <div class="card">
+                        <img src="..." alt="Descrição da Imagem" class="card-img">
+                        <h3><p class="card-question">Pergunta 12</p></h3>
+                    </div>
+                    <div class="inputs">
+                        <button class="input alternativa-btn" onclick="registrarResposta('SEGTRAB'); proximaPergunta(5)">Resposta 1</button>
+                        <button class="input alternativa-btn" onclick="registrarResposta('JURID'); proximaPergunta(5)">Resposta 2</button>
+                    </div>
+                `;
+            } else if (pergunta === 5) {
+                nextContent = `
+                    <div class="card">
+                        <img src="..." alt="Descrição da Imagem" class="card-img">
+                        <h3><p class="card-question">Pergunta 13</p></h3>
+                    </div>
+                    <div class="inputs">
+                        <button class="input alternativa-btn" onclick="registrarResposta('SEGTRAB'); proximaPergunta(6)">Resposta 1</button>
+                        <button class="input alternativa-btn" onclick="registrarResposta('JURID'); proximaPergunta(6)">Resposta 2</button>
+                    </div>
+                `;
+            } else if (pergunta === 6) {
+                nextContent = `
+                    <div class="card">
+                        <img src="..." alt="Descrição da Imagem" class="card-img">
+                        <h3><p class="card-question">Pergunta 14</p></h3>
+                    </div>
+                    <div class="inputs">
+                        <button class="input alternativa-btn" onclick="registrarResposta('SEGTRAB'); proximaPergunta(7)">Resposta 1</button>
+                        <button class="input alternativa-btn" onclick="registrarResposta('JURID'); proximaPergunta(7)">Resposta 2</button>
+                    </div>
+                `;
+            } else if (pergunta === 7) {
+                verificarPontuacao(); // Redireciona para a página final
+                return; // Para evitar sobrescrever o conteúdo após o redirecionamento
+            }
+
+            document.getElementById('content').innerHTML = nextContent;
+        }
+
+        // Função para verificar a pontuação final e redirecionar
+        function verificarPontuacao() {
+            // Salva a pontuação final no localStorage (já está sendo salvo nas funções anteriores)
+            localStorage.setItem('pontuacao3', JSON.stringify(pontuacao3));
+
+            // Compara as pontuações e redireciona para a página apropriada
+            if (pontuacao3.SEGTRAB > pontuacao3.JURID) {
+                window.location.href = '../resultado/resultSEGTRAB.html'; // Substitua pelo URL correto
+            } else {
+                window.location.href = '../resultado/resultJURID.html'; // Substitua pelo URL correto
+            }
+        }
+    </script>
+</body>
+</html>
